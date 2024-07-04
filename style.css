@@ -1,0 +1,79 @@
+body {
+    margin-top: 20px;
+    background-color: #f6f6f7;
+}
+
+#title-text {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    color: #2b2c34;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.metric {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%;
+    height: calc(60px + 2vw);
+    width: calc(60px + 2vw);
+    background-color: white;
+    font-size: calc(20px + 1vw);
+    font-weight: bold;
+}
+
+.metric-box {
+    margin: calc(10px + 1vw) calc(5px + 1vw) 0px calc(5px + 1vw);
+}
+
+.metric-description {
+    font-size: calc(12px + 0.2vw);
+    display: flex;
+    justify-content: center;
+}
+
+.text-container {
+    padding: 10px 15px 10px 15px;
+    font-size: 27px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.main {
+    margin: 25px calc(30px + (100 - 30) * ((100vw - 450px) / (1920 - 450))) 25px calc(30px + (100 - 30) * ((100vw - 450px) / (1920 - 450)));
+}
+
+.restart {
+    border: 1px solid grey;
+    text-align: center;
+    padding: 10px;
+    margin: 25px 0px 25px 0px;
+    border-radius: 5px;
+}
+
+.restart:hover {
+    border: 2px solid black;
+}
+
+#current-stats {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+#timer {
+    border-radius: 50%;
+    border: 5px solid #ffd803;
+}
+
+h2 {
+    font-size: calc(30px + 1.8vw);
+    font-weight: bold;
+}
+
+h4 {
+    text-transform: uppercase;
+    font-size: 20px;
+}
