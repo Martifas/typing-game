@@ -7,26 +7,39 @@ export async function generateText() {
     );
     const text = await response.text();
     let parseText = parseFetchedText(text);
-    textContainer.innerText = parseText.join(" ");
+    let fullText = parseText.join(" ");
+    textContainer.innerHTML = fullText.split('').map(char => `<span>${char}</span>`).join('');
+    return fullText;
   } catch (error) {
     console.log("Error getting text:", error);
+    return '';
   }
+}
+
+export function startTimer() {
+  let timeLeft = 60;
+  let timerInterval = setInterval(() => {
+    timeLeft--;
+    timerElement.innerText = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      console.log("Time's up!");
+    }
+  }, 1000);
 }
 
 function parseFetchedText(text) {
   return JSON.parse(text);
 }
 
-export function startTimer() {
-  let timeLeft = 60;
+let currentLetterIndex = 0;
 
-  let timerInterval = setInterval(() => {
-    timeLeft--;
-    timerElement.innerText = timeLeft;
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      console.log("Time's up!");
-    }
-  }, 1000);
+export function highlightLetter(fullText) {
+  if (currentLetterIndex > 0) {
+    textContainer.children[currentLetterIndex - 1].style.textDecoration = "none";
+  }
+  if (currentLetterIndex < fullText.length) {
+    textContainer.children[currentLetterIndex].style.textDecoration = "underline";
+    currentLetterIndex++;
+  }
 }
