@@ -1,6 +1,11 @@
 body {
     margin-top: 20px;
     background-color: #f6f6f7;
+    font-family: "Montserrat", sans-serif;
+}
+
+footer {
+    color: grey;
 }
 
 #title-text {
@@ -39,10 +44,8 @@ body {
     font-size: 27px;
     background-color: white;
     border-radius: 5px;
-}
-
-.main {
-    margin: 25px calc(30px + (100 - 30) * ((100vw - 450px) / (1920 - 450))) 25px calc(30px + (100 - 30) * ((100vw - 450px) / (1920 - 450)));
+    font-family: "Inconsolata", monospace;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .restart {
@@ -78,9 +81,6 @@ h4 {
     font-size: 20px;
 }
 
-@media (min-width: 481px) and (max-width: 768px) {
-
-}
 @media (min-width: 769px) {
     h2 {
         font-size: 43px;
@@ -89,7 +89,7 @@ h4 {
     .metric {
         height: 96px;
         width: 96px;
-        font-size: calc(1.75em + 1.5vw);
+        font-size: 45px;
     }
 }
 
