@@ -17,10 +17,10 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 20%;
-    height: calc(60px + 2vw);
-    width: calc(60px + 2vw);
+    height: 64px;
+    width: 64px;
     background-color: white;
-    font-size: calc(20px + 1vw);
+    font-size: 1.5em;
     font-weight: bold;
 }
 
@@ -29,7 +29,7 @@ body {
 }
 
 .metric-description {
-    font-size: calc(12px + 0.2vw);
+    font-size: 14px;
     display: flex;
     justify-content: center;
 }
@@ -69,11 +69,32 @@ body {
 }
 
 h2 {
-    font-size: calc(30px + 1.8vw);
+    font-size: 32px;
     font-weight: bold;
 }
 
 h4 {
     text-transform: uppercase;
     font-size: 20px;
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+}
+@media (min-width: 769px) {
+    h2 {
+        font-size: 43px;
+    }
+
+    .metric {
+        height: 96px;
+        width: 96px;
+        font-size: calc(1.75em + 1.5vw);
+    }
+}
+
+@media (min-width: 1025px) {
+    h2 {
+        font-size: 63px;
+    }
 }
