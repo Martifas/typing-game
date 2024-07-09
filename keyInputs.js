@@ -1,0 +1,3 @@
+function restartPage() {
+    location.reload();
+}

@@ -1,5 +1,12 @@
-import { textContainer } from "./domElements.js";
-import { updateMistakes } from "./metricsHandlers.js";
+import {
+  textContainer,
+  timerElement,
+  wpmElement,
+  mistakesElement,
+  accuracyElement,
+} from "./domElements.js";
+import { updateMistakes, startTimer, stopTimer } from "./metricsHandlers.js";
+import { setCurrentIndex, spans } from "./main.js";
 import { WORD_COUNT } from "./config.js";
 
 export let mistakeCount = 0;
@@ -72,6 +79,27 @@ export function goBackLetter(spans, currentIndex) {
 
     updateMistakes();
   }
+}
+
+export function resetCurrentText() {
+  mistakeCount = 0;
+  setCurrentIndex(0);
+
+  spans.forEach((span) => {
+    span.style.color = "black";
+    span.style.textDecoration = "none";
+    span.style.fontWeight = "normal";
+  });
+
+  timerElement = 60;
+  wpmElement.innerText = 0;
+  mistakesElement.innerText = 0;
+  accuracyElement.innerText = 100;
+
+  highlightLetter(spans, 0);
+
+  stopTimer();
+  startTimer();
 }
 
 const parseFetchedText = (text) => JSON.parse(text);

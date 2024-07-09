@@ -3,15 +3,17 @@ import {
   greenOrRed,
   highlightLetter,
   goBackLetter,
+  resetCurrentText,
 } from "./textHandlers.js";
 
 import { startTimer } from "./metricsHandlers.js";
-import { loadTable, printResults } from "./resultsTable.js"
+import { loadTable, printResults } from "./resultsTable.js";
+import { restartButton } from "./domElements.js";
 
 export let currentIndex = 0;
 export let fullText = "";
 let isGameActive = false;
-let spans = [];
+export let spans = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
   loadTable();
@@ -31,8 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   );
 
   document.addEventListener("keydown", keydownHandler);
-
-  highlightLetter(spans, currentIndex);
+  restartButton.addEventListener("click", restartPage);
 });
 
 const keydownHandler = (event) => {
@@ -41,14 +42,26 @@ const keydownHandler = (event) => {
   if (event.key === "Backspace") {
     goBackLetter(spans, currentIndex);
     currentIndex = Math.max(0, currentIndex - 1);
+  } else if (event.key === "Enter") {
+    restartPage();
+  } else if (event.key === "Escape") {
+    resetCurrentText();
   } else if (event.key.length === 1) {
     greenOrRed(fullText, spans, currentIndex, event.key);
+    highlightLetter(spans, currentIndex);
     currentIndex = Math.min(fullText.length, currentIndex + 1);
   }
   highlightLetter(spans, currentIndex);
 };
 
 export const endGame = () => {
-  document.removeEventListener("keydown", keydownHandler);
   printResults();
 };
+
+function restartPage() {
+  location.reload();
+}
+
+export function setCurrentIndex(value) {
+  currentIndex = value;
+}
