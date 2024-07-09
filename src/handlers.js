@@ -1,4 +1,7 @@
-import { textContainer, timerElement, mistakesElement } from "./domElements.js";
+import { textContainer } from "./domElements.js";
+import { updateMistakes } from "./metricsHandlers.js";
+
+export let mistakeCount = 0;
 
 export async function generateText() {
   try {
@@ -13,30 +16,26 @@ export async function generateText() {
       span.textContent = char;
       return span;
     });
-    textContainer.innerHTML = "";
+    textContainer.innerText = "";
     spans.forEach((span) => textContainer.appendChild(span));
     return { fullText, spans };
   } catch (error) {
     console.log("Error getting text:", error);
-    return { fullText: "", spans: [] };
+    return {
+      fullText: "Default text here",
+      spans: ["Default", "text", "here"].map((word) => {
+        let span = document.createElement("span");
+        span.textContent = word + " ";
+        return span;
+      }),
+    };
   }
 }
 
-export function startTimer() {
-  let timeLeft = 60;
-  let timerInterval = setInterval(() => {
-    timeLeft--;
-    timerElement.innerText = timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      console.log("Time's up!");
-    }
-  }, 1000);
-}
+const parseFetchedText = (text) => JSON.parse(text);
 
-function parseFetchedText(text) {
-  return JSON.parse(text);
-}
+const rightOrWrong = (expectedChar, inputChar) =>
+  expectedChar.toLowerCase() === inputChar.toLowerCase();
 
 export function highlightLetter(spans, currentIndex) {
   spans.forEach((span) => {
@@ -49,31 +48,33 @@ export function highlightLetter(spans, currentIndex) {
     spans[currentIndex].style.fontWeight = "bold";
   }
 }
+
 export function greenOrRed(fullText, spans, currentIndex, keyPressed) {
   let currentChar = fullText[currentIndex];
   let correctInput = rightOrWrong(currentChar, keyPressed);
-
   if (currentIndex < spans.length) {
-    spans[currentIndex].style.color = correctInput ? "green" : "red";
+    if (correctInput) {
+      spans[currentIndex].style.color = "green";
+    } else {
+      spans[currentIndex].style.color = "red";
+      mistakeCount++;
+    }
     spans[currentIndex].style.textDecoration = "none";
     spans[currentIndex].style.fontWeight = "normal";
 
-    mistakesElement.innerText = countMistakes(spans);
+    updateMistakes();
   }
-}
-
-function rightOrWrong(expectedChar, inputChar) {
-  return expectedChar.toLowerCase() === inputChar.toLowerCase();
 }
 
 export function goBackLetter(spans, currentIndex) {
   if (currentIndex > 0) {
+    if (spans[currentIndex - 1].style.color === "red") {
+      mistakeCount = Math.max(0, mistakeCount - 1);
+    }
     spans[currentIndex - 1].style.color = "black";
     spans[currentIndex - 1].style.textDecoration = "none";
     spans[currentIndex - 1].style.fontWeight = "normal";
-  }
-}
 
-function countMistakes(spans) {
-  return Array.from(spans).filter((span) => span.style.color === "red").length;
+    updateMistakes();
+  }
 }
