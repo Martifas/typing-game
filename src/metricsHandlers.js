@@ -1,12 +1,12 @@
-import { MAX_TIME } from "./config.js";
+import { MAX_TIME, ACCEPTABLE_WORD_LENGTH } from "./config.js";
 import {
   timerElement,
   wpmElement,
   mistakesElement,
   accuracyElement,
 } from "./domElements.js";
-import { currentIndex, keydownHandler, fullText } from "./main.js";
-import { mistakeCount } from "./handlers.js";
+import { currentIndex, endGame, fullText } from "./main.js";
+import { mistakeCount } from "./textHandlers.js";
 
 export const startTimer = () => {
   let timeLeft = 60;
@@ -34,14 +34,9 @@ export const updateMistakes = () => (mistakesElement.innerText = mistakeCount);
 
 const calculateWPM = (timeLeft) => {
   const elapsedTime = (MAX_TIME - timeLeft) / 60;
-  const correctlyTypedWords = (currentIndex - mistakeCount) / 5;
+  const correctlyTypedWords = (currentIndex - mistakeCount) / ACCEPTABLE_WORD_LENGTH;
   return Math.round(correctlyTypedWords / elapsedTime) || 0;
 };
 
 const calculateAccuracy = () =>
   Math.round(((currentIndex - mistakeCount) / currentIndex) * 100);
-
-export function endGame() {
-  document.removeEventListener("keydown", keydownHandler);
-  console.log("DONE, gratz!");
-}

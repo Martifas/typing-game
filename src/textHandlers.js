@@ -1,12 +1,13 @@
 import { textContainer } from "./domElements.js";
 import { updateMistakes } from "./metricsHandlers.js";
+import { WORD_COUNT } from "./config.js";
 
 export let mistakeCount = 0;
 
 export async function generateText() {
   try {
     const response = await fetch(
-      "https://random-word-form.herokuapp.com/random/noun/?count=30"
+      `https://random-word-form.herokuapp.com/random/noun/?count=${WORD_COUNT}`
     );
     const text = await response.text();
     let parseText = parseFetchedText(text);
@@ -31,12 +32,6 @@ export async function generateText() {
     };
   }
 }
-
-const parseFetchedText = (text) => JSON.parse(text);
-
-const rightOrWrong = (expectedChar, inputChar) =>
-  expectedChar.toLowerCase() === inputChar.toLowerCase();
-
 export function highlightLetter(spans, currentIndex) {
   spans.forEach((span) => {
     span.style.textDecoration = "none";
@@ -78,3 +73,8 @@ export function goBackLetter(spans, currentIndex) {
     updateMistakes();
   }
 }
+
+const parseFetchedText = (text) => JSON.parse(text);
+
+const rightOrWrong = (expectedChar, inputChar) =>
+  expectedChar.toLowerCase() === inputChar.toLowerCase();

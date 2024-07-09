@@ -3,15 +3,14 @@ import {
   greenOrRed,
   highlightLetter,
   goBackLetter,
-} from "./handlers.js";
+} from "./textHandlers.js";
 
-import { startTimer, endGame } from "./metricsHandlers.js";
+import { startTimer } from "./metricsHandlers.js";
 
 export let currentIndex = 0;
 export let fullText = "";
 let isGameActive = false;
 let spans = [];
-
 
 document.addEventListener("DOMContentLoaded", async () => {
   const textData = await generateText();
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   highlightLetter(spans, currentIndex);
 });
 
-export const keydownHandler = (event) => {
+const keydownHandler = (event) => {
   if (!isGameActive) return;
   event.preventDefault();
   if (event.key === "Backspace") {
@@ -45,4 +44,9 @@ export const keydownHandler = (event) => {
     currentIndex = Math.min(fullText.length, currentIndex + 1);
   }
   highlightLetter(spans, currentIndex);
+};
+
+export const endGame = () => {
+  document.removeEventListener("keydown", keydownHandler);
+  console.log("DONE, gratz!");
 };
