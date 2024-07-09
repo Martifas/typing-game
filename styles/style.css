@@ -5,7 +5,11 @@ body {
 }
 
 footer {
-    color: grey;
+    color: #676e7a;
+}
+
+table {
+    color: #676e7a
 }
 
 #title-text {
@@ -81,6 +85,13 @@ h4 {
     font-size: 20px;
 }
 
+th:nth-child(even) {
+    display: none;
+}
+tbody td:nth-child(even) {
+    display: none;
+}
+
 @media (min-width: 769px) {
     h2 {
         font-size: 43px;
@@ -90,6 +101,14 @@ h4 {
         height: 96px;
         width: 96px;
         font-size: 45px;
+    }
+
+    th:nth-child(even) {
+        display: block;
+    }
+
+    tbody td:nth-child(even) {
+        display: block;
     }
 }
 

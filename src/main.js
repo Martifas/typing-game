@@ -6,6 +6,7 @@ import {
 } from "./textHandlers.js";
 
 import { startTimer } from "./metricsHandlers.js";
+import { loadTable, printResults } from "./resultsTable.js"
 
 export let currentIndex = 0;
 export let fullText = "";
@@ -13,6 +14,7 @@ let isGameActive = false;
 let spans = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
+  loadTable();
   const textData = await generateText();
   fullText = textData.fullText;
   spans = textData.spans;
@@ -48,5 +50,5 @@ const keydownHandler = (event) => {
 
 export const endGame = () => {
   document.removeEventListener("keydown", keydownHandler);
-  console.log("DONE, gratz!");
+  printResults();
 };
