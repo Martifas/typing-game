@@ -30,8 +30,13 @@ export async function generateText() {
   } catch (error) {
     console.log("Error getting text:", error);
     return {
-      fullText: "Default text here",
-      spans: ["Default", "text", "here"].map((word) => {
+      fullText:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia blanditiis doloribus numquam, facilis voluptatibus pariatur exercitationem hic provident quis, nam delectus velit tempora architecto totam. Temporibus voluptates voluptate unde tempora?",
+      spans: ["Lorem", "ipsum", "dolor,", "sit", "amet", "consectetur", "adipisicing", "elit.", "Quia", "blanditiis", 
+        "doloribus", "numquam,", "facilis", "voluptatibus", "pariatur", "exercitationem", "hic", "provident", 
+        "quis,", "nam", "delectus", "velit", "tempora", "architecto", "totam.", "Temporibus", "voluptates", 
+        "voluptate", "unde", "tempora?"]
+        .map((word) => {
         let span = document.createElement("span");
         span.textContent = word + " ";
         return span;
