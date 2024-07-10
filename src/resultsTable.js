@@ -26,7 +26,6 @@ export function printResults() {
   if (results.length > MAX_RESULTS) {
     results = results.slice(0, MAX_RESULTS);
   }
-  console.log(wpm);
   localStorage.setItem("results", JSON.stringify(results));
   localStorage.setItem("latestWPM", JSON.stringify(wpm));
   displayResults(results);

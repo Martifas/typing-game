@@ -9,12 +9,12 @@ import { currentIndex, endGame, fullText } from "./main.js";
 import { getPreviousWPM } from "./resultsTable.js";
 import { mistakeCount } from "./textHandlers.js";
 
-export let timeLeft = 60;
+export let timeLeft = MAX_TIME;
 let intervalId;
 
 export const startTimer = () => {
   stopTimer();
-  timeLeft = 60;
+  timeLeft = MAX_TIME;
   timerElement.innerText = timeLeft;
   intervalId = setInterval(() => {
     timeLeft--;

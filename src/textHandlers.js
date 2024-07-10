@@ -29,21 +29,19 @@ export async function generateText() {
     return { fullText, spans };
   } catch (error) {
     console.log("Error getting text:", error);
-    return {
-      fullText:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia blanditiis doloribus numquam, facilis voluptatibus pariatur exercitationem hic provident quis, nam delectus velit tempora architecto totam. Temporibus voluptates voluptate unde tempora?",
-      spans: ["Lorem", "ipsum", "dolor,", "sit", "amet", "consectetur", "adipisicing", "elit.", "Quia", "blanditiis", 
-        "doloribus", "numquam,", "facilis", "voluptatibus", "pariatur", "exercitationem", "hic", "provident", 
-        "quis,", "nam", "delectus", "velit", "tempora", "architecto", "totam.", "Temporibus", "voluptates", 
-        "voluptate", "unde", "tempora?"]
-        .map((word) => {
-        let span = document.createElement("span");
-        span.textContent = word + " ";
-        return span;
-      }),
-    };
+    let fullText =
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia blanditiis doloribus numquam, facilis voluptatibus pariatur exercitationem hic provident quis, nam delectus velit tempora architecto totam. Temporibus voluptates voluptate unde tempora?";
+    let spans = fullText.split("").map((char) => {
+      let span = document.createElement("span");
+      span.textContent = char;
+      return span;
+    });
+    textContainer.innerText = "";
+    spans.forEach((span) => textContainer.appendChild(span));
+    return { fullText, spans };
   }
 }
+
 export function highlightLetter(spans, currentIndex) {
   spans.forEach((span) => {
     span.style.textDecoration = "none";
