@@ -6,6 +6,7 @@ import {
   accuracyElement,
 } from "./domElements.js";
 import { currentIndex, endGame, fullText } from "./main.js";
+import { getPreviousWPM } from "./resultsTable.js";
 import { mistakeCount } from "./textHandlers.js";
 
 export let timeLeft = 60;
@@ -40,16 +41,33 @@ const defineEnd = (timeLeft, intervalId) => {
 
 export const updateMistakes = () => (mistakesElement.innerText = mistakeCount);
 
-export const calculateWPM = (timeLeft) => {
+export function calculateWPM(timeLeft) {
   const elapsedTime = (MAX_TIME - timeLeft) / 60;
   const correctlyTypedWords =
     (currentIndex - mistakeCount) / ACCEPTABLE_WORD_LENGTH;
   return Math.round(correctlyTypedWords / elapsedTime) || 0;
-};
+}
 
-export const calculateAccuracy = () => {
+export function calculateAccuracy() {
   if (currentIndex === 0) return 100;
   const correctEntries = currentIndex - mistakeCount;
-  if (correctEntries === 0) return 0;
-  return Math.round((correctEntries / currentIndex) * 100);
-};
+  return correctEntries === 0
+    ? 0
+    : Math.round((correctEntries / currentIndex) * 100);
+}
+
+export function calculatePerformance() {
+  const previousWpm = getPreviousWPM();
+  const currentWpm = calculateWPM(timeLeft);
+
+  const wpmDifference = currentWpm - previousWpm;
+
+  if (previousWpm === null) return " - ";
+
+  if (wpmDifference === 0) return `No change =`;
+
+  const direction = wpmDifference > 0 ? "⬆" : "⬇";
+  return `${wpmDifference > 0 ? 'Increase' : 'Drop'} by ${Math.abs(
+    wpmDifference
+  )} ${direction}`;
+}

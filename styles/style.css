@@ -72,7 +72,7 @@ table {
 
 #timer {
     border-radius: 50%;
-    border: 5px solid #ffd803;
+    border: 5px solid green;
 }
 
 h2 {
@@ -80,16 +80,30 @@ h2 {
     font-weight: bold;
 }
 
+main h4 {
+    margin-top: 30px;
+}
+
 h4 {
     text-transform: uppercase;
     font-size: 20px;
 }
 
+thead tr th:not(:first-child) {
+    text-align: center;
+}
+
 th:nth-child(even) {
     display: none;
+
 }
+
 tbody td:nth-child(even) {
     display: none;
+}
+
+tbody tr td:not(:first-child) {
+    text-align: center;
 }
 
 @media (min-width: 769px) {

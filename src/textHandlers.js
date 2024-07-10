@@ -91,7 +91,7 @@ export function resetCurrentText() {
     span.style.fontWeight = "normal";
   });
 
-  timerElement = 60;
+  timerElement.innerText = 60;
   wpmElement.innerText = 0;
   mistakesElement.innerText = 0;
   accuracyElement.innerText = 100;

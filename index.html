@@ -20,34 +20,74 @@
   </head>
 
   <body class="container">
-    <main>
+    <main role="main">
       <div id="title-text">
-        <h4>KeyBlitz</h4>
+        <h1>KeyBlitz</h1>
         <h2>Test your typing skills</h2>
       </div>
-      <div id="current-stats">
+
+      <div id="current-stats" role="region" aria-label="Current statistics">
         <div class="metric-box">
-          <div id="timer" class="metric">60</div>
+          <div
+            id="timer"
+            class="metric"
+            role="timer"
+            aria-label="Time remaining"
+          >
+            60
+          </div>
           <div class="metric-description">seconds</div>
         </div>
         <div class="metric-box">
-          <div id="mistakes" class="metric">0</div>
+          <div
+            id="mistakes"
+            class="metric"
+            role="status"
+            aria-live="polite"
+            aria-label="Mistakes"
+          >
+            0
+          </div>
           <div class="metric-description">mistakes</div>
         </div>
         <div class="metric-box">
-          <div id="wpm" class="metric">0</div>
+          <div
+            id="wpm"
+            class="metric"
+            role="status"
+            aria-live="polite"
+            aria-label="Words per minute"
+          >
+            0
+          </div>
           <div class="metric-description">words/min</div>
         </div>
         <div class="metric-box">
-          <div id="accuracy" class="metric">100</div>
+          <div
+            id="accuracy"
+            class="metric"
+            role="status"
+            aria-live="polite"
+            aria-label="Accuracy percentage"
+          >
+            100
+          </div>
           <div class="metric-description">% accuracy</div>
         </div>
       </div>
+
       <div class="container mt-5">
-        <div class="container text-container">Generating text..</div>
-        <div class="restart">Restart</div>
+        <div
+          class="container text-container"
+          role="textbox"
+          aria-label="Typing area"
+          tabindex="0"
+        >
+          Generating text..
+        </div>
+        <div class="restart" role="button">Restart</div>
         <div>
-          <h3>Instructions</h3>
+          <h4>Instructions</h4>
           <p>
             The test begins when you start typing. Your results will be
             displayed in a table below.
@@ -63,14 +103,14 @@
           <p><strong>Ready? Start typing to begin!</strong></p>
         </div>
         <div>
-          <h3>Disclaimer</h3>
+          <h4>Disclaimer</h4>
           <p>
             Text content is randomly generated. Some words may be inappropriate
             or offensive to certain users. We apologize for any unintended
             discomfort.
           </p>
         </div>
-        <table class="container mt-5">
+        <table class="container mt-5" role="table" aria-label="Results table">
           <thead>
             <tr>
               <th scope="col">Date and time</th>
