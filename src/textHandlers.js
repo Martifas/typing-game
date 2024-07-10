@@ -7,40 +7,48 @@ import {
 } from "./domElements.js";
 import { updateMistakes, startTimer, stopTimer } from "./metricsHandlers.js";
 import { setCurrentIndex, spans } from "./main.js";
-import { WORD_COUNT } from "./config.js";
+import { DEFAULT_TEXT, WORD_COUNT } from "./config.js";
 
 export let mistakeCount = 0;
 
 export async function generateText() {
   try {
-    const response = await fetch(
-      `https://random-word-form.herokuapp.com/random/noun/?count=${WORD_COUNT}`
-    );
-    const text = await response.text();
-    let parseText = parseFetchedText(text);
-    let fullText = parseText.join(" ");
-    let spans = fullText.split("").map((char) => {
-      let span = document.createElement("span");
-      span.textContent = char;
-      return span;
-    });
-    textContainer.innerText = "";
-    spans.forEach((span) => textContainer.appendChild(span));
-    return { fullText, spans };
+    return fetchText();
   } catch (error) {
-    console.log("Error getting text:", error);
-    let fullText =
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia blanditiis doloribus numquam, facilis voluptatibus pariatur exercitationem hic provident quis, nam delectus velit tempora architecto totam. Temporibus voluptates voluptate unde tempora?";
-    let spans = fullText.split("").map((char) => {
-      let span = document.createElement("span");
-      span.textContent = char;
-      return span;
-    });
-    textContainer.innerText = "";
-    spans.forEach((span) => textContainer.appendChild(span));
-    return { fullText, spans };
+    return errorHandling();
   }
 }
+
+async function fetchText() {
+  const response = await fetch(
+    `https://random-word-form.herokuapp.com/random/noun/?count=${WORD_COUNT}`
+  );
+  const text = await response.text();
+  let parseText = parseFetchedText(text);
+  let fullText = parseText.join(" ");
+  let spans = fullText.split("").map((char) => {
+    let span = document.createElement("span");
+    span.textContent = char;
+    return span;
+  });
+  textContainer.innerText = "";
+  spans.forEach((span) => textContainer.appendChild(span));
+  return { fullText, spans };
+}
+
+function errorHandling() {
+  console.log("Error getting text:", error);
+  let fullText =
+    DEFAULT_TEXT;
+  let spans = fullText.split("").map((char) => {
+    let span = document.createElement("span");
+    span.textContent = char;
+    return span;
+  });
+  textContainer.innerText = "";
+  spans.forEach((span) => textContainer.appendChild(span));
+  return { fullText, spans };
+};
 
 export function highlightLetter(spans, currentIndex) {
   spans.forEach((span) => {

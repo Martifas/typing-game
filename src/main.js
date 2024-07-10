@@ -12,8 +12,8 @@ import { restartButton } from "./domElements.js";
 
 export let currentIndex = 0;
 export let fullText = "";
-let isGameActive = false;
 export let spans = [];
+let isGameActive = false;
 
 document.addEventListener("DOMContentLoaded", async () => {
   loadTable();
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   restartButton.addEventListener("click", restartPage);
 });
 
-const keydownHandler = (event) => {
+function keydownHandler(event) {
   if (!isGameActive) return;
   event.preventDefault();
   if (event.key === "Backspace") {
@@ -58,7 +58,7 @@ export const endGame = () => {
   printResults();
 };
 
-function restartPage() {
+const restartPage = () => {
   location.reload();
 }
 

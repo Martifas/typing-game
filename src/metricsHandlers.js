@@ -12,7 +12,7 @@ import { mistakeCount } from "./textHandlers.js";
 export let timeLeft = MAX_TIME;
 let intervalId;
 
-export const startTimer = () => {
+export function startTimer() {
   stopTimer();
   timeLeft = MAX_TIME;
   timerElement.innerText = timeLeft;
@@ -25,14 +25,14 @@ export const startTimer = () => {
   }, 1000);
 };
 
-export const stopTimer = () => {
+export function stopTimer() {
   if (intervalId) {
     clearInterval(intervalId);
     intervalId = null;
   }
 };
 
-const defineEnd = (timeLeft, intervalId) => {
+function defineEnd(timeLeft, intervalId) {
   if (timeLeft <= 0 || currentIndex >= fullText.length) {
     clearInterval(intervalId);
     endGame();
@@ -54,7 +54,7 @@ export function calculateAccuracy() {
   return correctEntries === 0
     ? 0
     : Math.round((correctEntries / currentIndex) * 100);
-}
+};
 
 export function calculatePerformance() {
   const previousWpm = getPreviousWPM();
@@ -67,7 +67,7 @@ export function calculatePerformance() {
   if (wpmDifference === 0) return `No change =`;
 
   const direction = wpmDifference > 0 ? "⬆" : "⬇";
-  return `${wpmDifference > 0 ? 'Increase' : 'Drop'} by ${Math.abs(
+  return `${wpmDifference > 0 ? "Increase" : "Drop"} by ${Math.abs(
     wpmDifference
   )} ${direction}`;
-}
+};
