@@ -5,15 +5,15 @@ import {
   mistakesElement,
   accuracyElement,
 } from "./domElements.js";
-import { 
-  currentIndex, 
-  fullText, 
-  timeLeft, 
-  setTimeLeft, 
+import {
+  currentIndex,
+  fullText,
+  timeLeft,
+  setTimeLeft,
   mistakeCount,
   setWpm,
   setAccuracy,
-  setPerformance
+  setPerformance,
 } from "./globals.js";
 import { getPreviousWPM, printResults } from "./resultsTable.js";
 
@@ -68,9 +68,10 @@ export function calculateAccuracy() {
     return 100;
   }
   const correctEntries = currentIndex - mistakeCount;
-  const accuracy = correctEntries === 0
-    ? 0
-    : Math.round((correctEntries / currentIndex) * 100);
+  const accuracy =
+    correctEntries === 0
+      ? 0
+      : Math.round((correctEntries / currentIndex) * 100);
   setAccuracy(accuracy);
   return accuracy;
 }

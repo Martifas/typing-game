@@ -1,8 +1,7 @@
 import { textContainer } from "./domElements.js";
 import { updateMistakes } from "./metricsHandlers.js";
 import { DEFAULT_TEXT, WORD_COUNT } from "./config.js";
-
-export let mistakeCount = 0;
+import { setMistakeCount, mistakeCount } from "./globals.js";
 
 export async function generateText() {
   try {
@@ -62,7 +61,7 @@ export function greenOrRed(fullText, spans, currentIndex, keyPressed) {
       spans[currentIndex].style.color = "green";
     } else {
       spans[currentIndex].style.color = "red";
-      mistakeCount++;
+      setMistakeCount(mistakeCount + 1);
     }
     spans[currentIndex].style.textDecoration = "none";
     spans[currentIndex].style.fontWeight = "normal";
@@ -74,7 +73,7 @@ export function greenOrRed(fullText, spans, currentIndex, keyPressed) {
 export function goBackLetter(spans, currentIndex) {
   if (currentIndex > 0) {
     if (spans[currentIndex - 1].style.color === "red") {
-      mistakeCount = Math.max(0, mistakeCount - 1);
+      setMistakeCount(Math.max(0, mistakeCount - 1));
     }
     spans[currentIndex - 1].style.color = "black";
     spans[currentIndex - 1].style.textDecoration = "none";
