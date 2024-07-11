@@ -1,5 +1,5 @@
 export const MAX_TIME = 60;
-export const WORD_COUNT = 2;
+export const WORD_COUNT = 30;
 export const ACCEPTABLE_WORD_LENGTH = 5;
 export const MAX_RESULTS = 5
 export const DEFAULT_TEXT =
