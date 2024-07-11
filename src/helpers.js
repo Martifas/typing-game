@@ -1,11 +1,11 @@
-import { goBackLetter, greenOrRed, highlightLetter } from "./textHandlers.js";
+import { handleBackspaceInput, styleLettersGreenOrRed, highlightCurrentLetter } from "./textHandlers.js";
 import { startTimer, stopTimer } from "./metricsHandlers.js";
 import {
   accuracyElement,
   mistakesElement,
   timerElement,
   wpmElement,
-} from "./globals/domElements.js";
+} from "../globals/domElements.js";
 import {
   isGameActive,
   fullText,
@@ -13,24 +13,24 @@ import {
   currentIndex,
   setCurrentIndex,
   setMistakeCount,
-} from "./global/states.js";
+} from "../globals/states.js";
 
-export function keydownHandler(event) {
+export function handleKeydownInputs(event) {
   if (!isGameActive) return;
   event.preventDefault();
   if (event.key === "Backspace") {
-    goBackLetter(spans, currentIndex);
+    handleBackspaceInput(spans, currentIndex);
     setCurrentIndex(Math.max(0, currentIndex - 1));
   } else if (event.key === "Enter") {
     restartPage();
   } else if (event.key === "Escape") {
     resetCurrentText();
   } else if (event.key.length === 1) {
-    greenOrRed(fullText, spans, currentIndex, event.key);
-    highlightLetter(spans, currentIndex);
+    styleLettersGreenOrRed(fullText, spans, currentIndex, event.key);
+    highlightCurrentLetter(spans, currentIndex);
     setCurrentIndex(Math.min(fullText.length, currentIndex + 1));
   }
-  highlightLetter(spans, currentIndex);
+  highlightCurrentLetter(spans, currentIndex);
 }
 
 export function restartPage() {
@@ -52,7 +52,7 @@ export function resetCurrentText() {
   mistakesElement.innerText = 0;
   accuracyElement.innerText = 100;
 
-  highlightLetter(spans, 0);
+  highlightCurrentLetter(spans, 0);
 
   stopTimer();
   startTimer();

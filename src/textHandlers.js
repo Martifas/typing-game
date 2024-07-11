@@ -1,7 +1,7 @@
-import { textContainer } from "./globals/domElements.js";
+import { textContainer } from "../globals/domElements.js";
 import { updateMistakes } from "./metricsHandlers.js";
 import { DEFAULT_TEXT, WORD_COUNT } from "./config.js";
-import { setMistakeCount, mistakeCount } from "./globals/states.js";
+import { setMistakeCount, mistakeCount } from "../globals/states.js";
 
 export async function generateText() {
   try {
@@ -41,7 +41,7 @@ function handleErrors() {
   return { fullText, spans };
 }
 
-export function highlightLetter(spans, currentIndex) {
+export function highlightCurrentLetter(spans, currentIndex) {
   spans.forEach((span) => {
     span.style.textDecoration = "none";
     span.style.fontWeight = "normal";
@@ -53,9 +53,9 @@ export function highlightLetter(spans, currentIndex) {
   }
 }
 
-export function greenOrRed(fullText, spans, currentIndex, keyPressed) {
+export function styleLettersGreenOrRed(fullText, spans, currentIndex, keyPressed) {
   let currentChar = fullText[currentIndex];
-  let correctInput = rightOrWrong(currentChar, keyPressed);
+  let correctInput = isCorrectInput(currentChar, keyPressed);
   if (currentIndex < spans.length) {
     if (correctInput) {
       spans[currentIndex].style.color = "green";
@@ -70,7 +70,7 @@ export function greenOrRed(fullText, spans, currentIndex, keyPressed) {
   }
 }
 
-export function goBackLetter(spans, currentIndex) {
+export function handleBackspaceInput(spans, currentIndex) {
   if (currentIndex > 0) {
     if (spans[currentIndex - 1].style.color === "red") {
       setMistakeCount(Math.max(0, mistakeCount - 1));
@@ -85,5 +85,5 @@ export function goBackLetter(spans, currentIndex) {
 
 const parseFetchedText = (text) => JSON.parse(text);
 
-const rightOrWrong = (expectedChar, inputChar) =>
+const isCorrectInput = (expectedChar, inputChar) =>
   expectedChar.toLowerCase() === inputChar.toLowerCase();

@@ -1,6 +1,6 @@
-import { resultsTable } from "./globals/domElements.js";
+import { resultsTable } from "../globals/domElements.js";
 import { MAX_RESULTS } from "./config.js";
-import { mistakeCount, wpm, performance, accuracy  } from "./global/states.js";
+import { mistakeCount, wpm, performance, accuracy  } from "../globals/states.js";
 
 export function printResults() {
   let results = getStoredResults();

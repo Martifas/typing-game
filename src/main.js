@@ -1,14 +1,14 @@
 import { generateText } from "./textHandlers.js";
-import { keydownHandler, restartPage } from "./helpers.js";
+import { handleKeydownInputs, restartPage } from "./helpers.js";
 import { startTimer } from "./metricsHandlers.js";
 import { loadTable } from "./resultsTable.js";
-import { restartButton } from "./globals/domElements.js";
+import { restartButton } from "../globals/domElements.js";
 import {
   isGameActive,
   setFullText,
   setSpans,
   setIsGameActive,
-} from "./globals/states.js";
+} from "../globals/states.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   loadTable();
@@ -25,6 +25,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
     { once: true }
   );
-  document.addEventListener("keydown", keydownHandler);
+  document.addEventListener("keydown", handleKeydownInputs);
   restartButton.addEventListener("click", restartPage);
 });

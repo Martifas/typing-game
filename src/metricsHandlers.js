@@ -4,7 +4,9 @@ import {
   wpmElement,
   mistakesElement,
   accuracyElement,
-} from "./globals/domElements.js";
+  messageLine,
+  restartButton,
+} from "../globals/domElements.js";
 import {
   currentIndex,
   fullText,
@@ -14,7 +16,7 @@ import {
   setWpm,
   setAccuracy,
   setPerformance,
-} from "./globals/states.js";
+} from "../globals/states.js";
 import { getPreviousWPM, printResults } from "./resultsTable.js";
 
 let intervalId;
@@ -45,8 +47,18 @@ export function stopTimer() {
 function endGame() {
   if (timeLeft <= 0 || currentIndex >= fullText.length) {
     stopTimer();
+    printEndGameMessage();
+    showRestartButton();
     printResults();
   }
+}
+
+const printEndGameMessage = () => {
+  messageLine.innerText = "Test finished! Your results are now saved in the results table below."
+}
+
+const showRestartButton = () => {
+  restartButton.style.display = 'block';
 }
 
 export const updateMistakes = () => {
