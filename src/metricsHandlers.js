@@ -4,7 +4,7 @@ import {
   wpmElement,
   mistakesElement,
   accuracyElement,
-} from "./domElements.js";
+} from "./globals/domElements.js";
 import {
   currentIndex,
   fullText,
@@ -14,7 +14,7 @@ import {
   setWpm,
   setAccuracy,
   setPerformance,
-} from "./globals.js";
+} from "./globals/states.js";
 import { getPreviousWPM, printResults } from "./resultsTable.js";
 
 let intervalId;

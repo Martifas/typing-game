@@ -5,7 +5,7 @@ import {
   mistakesElement,
   timerElement,
   wpmElement,
-} from "./domElements.js";
+} from "./globals/domElements.js";
 import {
   isGameActive,
   fullText,
@@ -13,7 +13,7 @@ import {
   currentIndex,
   setCurrentIndex,
   setMistakeCount,
-} from "./globals.js";
+} from "./global/states.js";
 
 export function keydownHandler(event) {
   if (!isGameActive) return;

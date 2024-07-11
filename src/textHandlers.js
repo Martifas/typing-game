@@ -1,7 +1,7 @@
-import { textContainer } from "./domElements.js";
+import { textContainer } from "./globals/domElements.js";
 import { updateMistakes } from "./metricsHandlers.js";
 import { DEFAULT_TEXT, WORD_COUNT } from "./config.js";
-import { setMistakeCount, mistakeCount } from "./globals.js";
+import { setMistakeCount, mistakeCount } from "./globals/states.js";
 
 export async function generateText() {
   try {

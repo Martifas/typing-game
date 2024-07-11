@@ -2,13 +2,13 @@ import { generateText } from "./textHandlers.js";
 import { keydownHandler, restartPage } from "./helpers.js";
 import { startTimer } from "./metricsHandlers.js";
 import { loadTable } from "./resultsTable.js";
-import { restartButton } from "./domElements.js";
+import { restartButton } from "./globals/domElements.js";
 import {
   isGameActive,
   setFullText,
   setSpans,
   setIsGameActive,
-} from "./globals.js";
+} from "./globals/states.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   loadTable();
