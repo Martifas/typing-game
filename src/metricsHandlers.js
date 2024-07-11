@@ -5,69 +5,91 @@ import {
   mistakesElement,
   accuracyElement,
 } from "./domElements.js";
-import { currentIndex, endGame, fullText } from "./main.js";
-import { getPreviousWPM } from "./resultsTable.js";
-import { mistakeCount } from "./textHandlers.js";
+import { 
+  currentIndex, 
+  fullText, 
+  timeLeft, 
+  setTimeLeft, 
+  mistakeCount,
+  setWpm,
+  setAccuracy,
+  setPerformance
+} from "./globals.js";
+import { getPreviousWPM, printResults } from "./resultsTable.js";
 
-export let timeLeft = MAX_TIME;
 let intervalId;
 
 export function startTimer() {
   stopTimer();
-  timeLeft = MAX_TIME;
+  setTimeLeft(MAX_TIME);
   timerElement.innerText = timeLeft;
   intervalId = setInterval(() => {
-    timeLeft--;
-    wpmElement.innerText = calculateWPM(timeLeft);
+    setTimeLeft(timeLeft - 1);
+    calculateWPM();
+    calculateAccuracy();
+    calculatePerformance();
+    wpmElement.innerText = calculateWPM();
     accuracyElement.innerText = calculateAccuracy();
     timerElement.innerText = timeLeft;
-    defineEnd(timeLeft, intervalId);
+    endGame();
   }, 1000);
-};
+}
 
 export function stopTimer() {
   if (intervalId) {
     clearInterval(intervalId);
     intervalId = null;
   }
-};
+}
 
-function defineEnd(timeLeft, intervalId) {
+function endGame() {
   if (timeLeft <= 0 || currentIndex >= fullText.length) {
-    clearInterval(intervalId);
-    endGame();
+    stopTimer();
+    printResults();
   }
+}
+
+export const updateMistakes = () => {
+  mistakesElement.innerText = mistakeCount;
 };
 
-export const updateMistakes = () => (mistakesElement.innerText = mistakeCount);
-
-export function calculateWPM(timeLeft) {
+export function calculateWPM() {
   const elapsedTime = (MAX_TIME - timeLeft) / 60;
   const correctlyTypedWords =
     (currentIndex - mistakeCount) / ACCEPTABLE_WORD_LENGTH;
-  return Math.round(correctlyTypedWords / elapsedTime) || 0;
+  const wpm = Math.round(correctlyTypedWords / elapsedTime) || 0;
+  setWpm(wpm);
+  return wpm;
 }
 
 export function calculateAccuracy() {
-  if (currentIndex === 0) return 100;
+  if (currentIndex === 0) {
+    setAccuracy(100);
+    return 100;
+  }
   const correctEntries = currentIndex - mistakeCount;
-  return correctEntries === 0
+  const accuracy = correctEntries === 0
     ? 0
     : Math.round((correctEntries / currentIndex) * 100);
-};
+  setAccuracy(accuracy);
+  return accuracy;
+}
 
 export function calculatePerformance() {
   const previousWpm = getPreviousWPM();
-  const currentWpm = calculateWPM(timeLeft);
-
+  const currentWpm = calculateWPM();
   const wpmDifference = currentWpm - previousWpm;
-
-  if (previousWpm === null) return " - ";
-
-  if (wpmDifference === 0) return `No change =`;
-
-  const direction = wpmDifference > 0 ? "⬆" : "⬇";
-  return `${wpmDifference > 0 ? "Increase" : "Drop"} by ${Math.abs(
-    wpmDifference
-  )} ${direction}`;
-};
+  let performanceText;
+  if (previousWpm === null) {
+    performanceText = " - ";
+  } else if (wpmDifference === 0) {
+    performanceText = "No change =";
+  } else {
+    const direction = wpmDifference > 0 ? "⬆" : "⬇";
+    performanceText = `${wpmDifference > 0 ? "Increase" : "Drop"} by ${Math.abs(
+      wpmDifference
+    )} ${direction}`;
+  }
+  setPerformance(performanceText);
+  return performanceText;
+}

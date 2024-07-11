@@ -1,12 +1,5 @@
-import {
-  textContainer,
-  timerElement,
-  wpmElement,
-  mistakesElement,
-  accuracyElement,
-} from "./domElements.js";
-import { updateMistakes, startTimer, stopTimer } from "./metricsHandlers.js";
-import { setCurrentIndex, spans } from "./main.js";
+import { textContainer } from "./domElements.js";
+import { updateMistakes } from "./metricsHandlers.js";
 import { DEFAULT_TEXT, WORD_COUNT } from "./config.js";
 
 export let mistakeCount = 0;
@@ -15,7 +8,7 @@ export async function generateText() {
   try {
     return fetchText();
   } catch (error) {
-    return errorHandling();
+    return handleErrors();
   }
 }
 
@@ -26,29 +19,28 @@ async function fetchText() {
   const text = await response.text();
   let parseText = parseFetchedText(text);
   let fullText = parseText.join(" ");
-  let spans = fullText.split("").map((char) => {
-    let span = document.createElement("span");
-    span.textContent = char;
-    return span;
-  });
+  let spans = turnEveryCharToSpan(fullText);
   textContainer.innerText = "";
   spans.forEach((span) => textContainer.appendChild(span));
   return { fullText, spans };
 }
 
-function errorHandling() {
-  console.log("Error getting text:", error);
-  let fullText =
-    DEFAULT_TEXT;
-  let spans = fullText.split("").map((char) => {
+function turnEveryCharToSpan(fullText) {
+  return fullText.split("").map((char) => {
     let span = document.createElement("span");
     span.textContent = char;
     return span;
   });
+}
+
+function handleErrors() {
+  console.log("Error getting text:", error);
+  let fullText = DEFAULT_TEXT;
+  let spans = turnEveryCharToSpan(fullText);
   textContainer.innerText = "";
   spans.forEach((span) => textContainer.appendChild(span));
   return { fullText, spans };
-};
+}
 
 export function highlightLetter(spans, currentIndex) {
   spans.forEach((span) => {
@@ -90,27 +82,6 @@ export function goBackLetter(spans, currentIndex) {
 
     updateMistakes();
   }
-}
-
-export function resetCurrentText() {
-  mistakeCount = 0;
-  setCurrentIndex(0);
-
-  spans.forEach((span) => {
-    span.style.color = "black";
-    span.style.textDecoration = "none";
-    span.style.fontWeight = "normal";
-  });
-
-  timerElement.innerText = 60;
-  wpmElement.innerText = 0;
-  mistakesElement.innerText = 0;
-  accuracyElement.innerText = 100;
-
-  highlightLetter(spans, 0);
-
-  stopTimer();
-  startTimer();
 }
 
 const parseFetchedText = (text) => JSON.parse(text);

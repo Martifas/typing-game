@@ -1,28 +1,17 @@
 import { resultsTable } from "./domElements.js";
-import {
-  calculateAccuracy,
-  calculatePerformance,
-  calculateWPM,
-  timeLeft,
-} from "./metricsHandlers.js";
-import { mistakeCount } from "./textHandlers.js";
-
-const MAX_RESULTS = 5;
+import { MAX_RESULTS } from "./config.js";
+import { mistakeCount, wpm, performance, accuracy  } from "./globals.js";
 
 export function printResults() {
   let results = getStoredResults();
-  let wpm = calculateWPM(timeLeft);
-
   let newResult = {
     time: getTime(),
     mistakes: mistakeCount,
     wpm: wpm,
-    accuracy: calculateAccuracy(),
-    performance: calculatePerformance(),
+    accuracy: accuracy,
+    performance: performance,
   };
-
   results.unshift(newResult);
-
   if (results.length > MAX_RESULTS) {
     results = results.slice(0, MAX_RESULTS);
   }
@@ -33,7 +22,6 @@ export function printResults() {
 
 function displayResults(results) {
   resultsTable.innerHTML = "";
-
   results.forEach((result) => {
     let row = resultsTable.insertRow(-1);
     let cell1 = row.insertCell(0);
@@ -41,7 +29,6 @@ function displayResults(results) {
     let cell3 = row.insertCell(2);
     let cell4 = row.insertCell(3);
     let cell5 = row.insertCell(4);
-
     cell1.innerText = result.time;
     cell2.innerText = result.mistakes;
     cell3.innerText = result.wpm;
@@ -63,11 +50,10 @@ function getTime() {
 
 function getStoredResults() {
   const storedData = localStorage.getItem("results");
-  if (!storedData) return [];
-  return JSON.parse(storedData);
+  return storedData ? JSON.parse(storedData) : [];
 }
 
 export function getPreviousWPM() {
-  const storedWPM = localStorage.getItem("latestWPM");
-  return storedWPM ? JSON.parse(storedWPM) : null;
+  const results = getStoredResults();
+  return results.length > 0 ? results[0].wpm : null;
 }
