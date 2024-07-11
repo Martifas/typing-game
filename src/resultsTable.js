@@ -16,7 +16,6 @@ export function printResults() {
     results = results.slice(0, MAX_RESULTS);
   }
   localStorage.setItem("results", JSON.stringify(results));
-  localStorage.setItem("latestWPM", JSON.stringify(wpm));
   displayResults(results);
 }
 
